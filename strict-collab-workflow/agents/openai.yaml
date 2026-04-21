@@ -1,0 +1,4 @@
+interface:
+  display_name: "Strict Collab Workflow"
+  short_description: "Use a gated, low-token workflow before coding and make proof explicit after each slice."
+  default_prompt: "Use $strict-collab-workflow to enforce a visible But/Diagnostic/Plan/Validation workflow, delay coding until validation, use rtk for shell commands, and report explicit proof."
