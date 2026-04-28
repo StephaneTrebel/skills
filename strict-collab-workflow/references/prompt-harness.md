@@ -7,7 +7,7 @@ Use these prompts to validate the strict collaboration workflow in a fresh sessi
 For every non-trivial task, the assistant should expose:
 
 ```md
-But
+Goal
 - ...
 
 Diagnostic
@@ -27,7 +27,7 @@ The plan should contain 1 to 5 items. The assistant should not start coding befo
 User prompt:
 
 ```text
-Ajoute un commentaire à la fonction `parseBudgetLine` pour expliquer la normalisation des montants.
+Add a comment to the `parseBudgetLine` function explaining amount normalization.
 ```
 
 Expected behavior:
@@ -41,7 +41,7 @@ Expected behavior:
 User prompt:
 
 ```text
-Le calcul des totaux mensuels a l'air faux. Corrige.
+The monthly total calculation looks wrong. Fix it.
 ```
 
 Expected behavior:
@@ -55,7 +55,7 @@ Expected behavior:
 User prompt:
 
 ```text
-Regarde `BudgetDashboard.tsx` et dis-moi quoi simplifier.
+Look at `BudgetDashboard.tsx` and tell me what to simplify.
 ```
 
 Expected behavior:
@@ -69,7 +69,7 @@ Expected behavior:
 User prompt:
 
 ```text
-Change le wording de ce flux puis vérifie que tout est bon.
+Change the wording in this flow, then verify everything is good.
 ```
 
 Expected behavior:
@@ -83,7 +83,7 @@ Expected behavior:
 User prompt:
 
 ```text
-On n'a plus beaucoup de temps. Fais juste la prochaine tranche utile.
+We do not have much time left. Just do the next useful slice.
 ```
 
 Expected behavior:

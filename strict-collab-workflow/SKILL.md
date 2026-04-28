@@ -2,7 +2,7 @@
 name: strict-collab-workflow
 description: >
   Enforce a strict collaboration workflow for future sessions: inspect minimally before coding,
-  present a visible But/Diagnostic/Plan/Validation structure, keep plans to 1-5 steps, use rtk for shell
+  present a visible Goal/Diagnostic/Plan/Validation structure, keep plans to 1-5 steps, use rtk for shell
   commands, avoid broad reads of large or central files without approval, and finish each execution
   slice with explicit proof and next-step handoff.
 ---
@@ -21,7 +21,7 @@ Use this workflow as the default operating mode unless the user explicitly overr
 Before any non-trivial code change, respond with:
 
 ```md
-But
+Goal
 - ...
 
 Diagnostic
@@ -31,7 +31,7 @@ Plan
 1. ...
 
 Validation
-- Attente de validation / go
+- Waiting for validation / go-ahead
 ```
 
 The plan must contain 1 to 5 steps.
@@ -97,17 +97,17 @@ Once the operating frame is 100% clear, do not keep asking the same confirmation
 After each execution slice, report:
 
 ```md
-Résultat
+Result
 - ...
 
-Preuve
-- Tests lancés: ...
-- Bootstrap/prérequis: ...
-- Non vérifié: ...
+Proof
+- Tests run: ...
+- Bootstrap/prerequisites: ...
+- Not verified: ...
 
-Suite
-- Prochaine action: ...
-- Pistes ensuite: ...
+Next
+- Next action: ...
+- Later options: ...
 ```
 
 When no clear automated verification exists:
