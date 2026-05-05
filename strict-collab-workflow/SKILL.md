@@ -61,6 +61,12 @@ For large or structurally central files:
 - prefer targeted reads first
 - ask before broad reading or large dumps
 
+When the requested file or symbol is absent:
+
+- report the failed lookup and what was searched
+- do not silently substitute a nearby file, route, component, or service as the new target
+- if a substitute seems useful, propose it as a bounded next diagnostic and wait before broad reading it when it is large or structurally central
+
 ## Validation Rules
 
 Wait for user validation before implementation by default.

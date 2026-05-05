@@ -63,6 +63,7 @@ Expected behavior:
 - assistant avoids dumping the entire file
 - assistant uses targeted reads first
 - assistant asks before broad reading if the file is large or structurally central
+- if the exact file is absent, assistant reports the failed lookup and asks before substituting a nearby large or central file
 
 ## Prompt 4: No obvious tests
 

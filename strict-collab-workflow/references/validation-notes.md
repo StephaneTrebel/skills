@@ -8,5 +8,6 @@ For each prompt, capture:
 - plan length
 - whether coding started before the gate
 - whether large-file behavior was handled correctly
+- whether absent requested files were handled without silent substitution
 - whether proof was explicit
 - follow-up adjustments needed
