@@ -1,0 +1,4 @@
+interface:
+  display_name: "Disciplined Git (MOI)"
+  short_description: "Use a strict and disciplined strategy when using Git"
+  default_prompt: "Use $disciplined-git for all Git workflows in a repository: status, diff, branch, worktree, staging, committing, fixing commits, rebasing, pushing, cleanup, conflicts, and handoff."

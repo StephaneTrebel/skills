@@ -1,4 +1,4 @@
 interface:
-  display_name: "Strict Collab Workflow"
+  display_name: "Strict Collab Workflow (MOI)"
   short_description: "Use a gated, low-token workflow before coding and make proof explicit after each slice."
   default_prompt: "Use $strict-collab-workflow to enforce a visible Goal/Diagnostic/Plan/Validation workflow, delay coding until validation, use rtk for shell commands, and report explicit proof."
