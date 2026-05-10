@@ -1,6 +1,6 @@
 interface:
-  display_name: "Smart Slidesk (MOI)"
-  short_description: "Create, review, amend, and validate SliDesk slide decks."
-  default_prompt: "Use $smart-slidesk to create, review, amend, or validate my SliDesk slide deck with explicit technical, narrative, and authoring phases."
+  display_name: "Smart SliDesk"
+  short_description: "Create, review, amend, and validate SliDesk Markdown decks."
+  default_prompt: "Use $smart-slidesk to create, review, amend, or validate my SliDesk deck with slidesk.toml, main.md, ordered slides/*.md, and explicit technical, narrative, and authoring phases."
 policy:
   allow_implicit_invocation: true

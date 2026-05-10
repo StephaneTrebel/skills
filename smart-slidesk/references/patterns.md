@@ -1,10 +1,10 @@
 # SliDesk Slide Patterns
 
-Prefer existing deck examples before using these snippets. Keep visible text sparse and put delivery detail in notes.
+Prefer existing deck examples before using these Markdown snippets. Keep visible text sparse and put delivery detail in notes.
 
 ## Chapter
 
-```sdf
+```md
 //@ < TBD
 
 ## .[chapter]
@@ -17,7 +17,7 @@ To Be Defined
 
 ## Content
 
-```sdf
+```md
 ## Idée clé
 
 - Un point visible
@@ -31,7 +31,7 @@ To Be Defined
 
 ## Full Image
 
-```sdf
+```md
 ## .[full-image]
 
 !image(assets/example.png,Description accessible)
@@ -43,7 +43,7 @@ To Be Defined
 
 ## Meme Or Visual Relief
 
-```sdf
+```md
 ## .[full-image]
 
 !image(assets/meme-example.png,Moment de respiration humoristique)
@@ -55,7 +55,7 @@ To Be Defined
 
 ## Quote
 
-```sdf
+```md
 ## Citation
 
 > Une phrase courte, mémorable, et utile.
@@ -67,7 +67,7 @@ To Be Defined
 
 ## Two Column
 
-```sdf
+```md
 ## Deux angles
 
 <div class="flex-row">
@@ -88,7 +88,7 @@ To Be Defined
 
 ## Speaker
 
-```sdf
+```md
 ## Nom Prénom .[speaker]
 # Rôle ou angle du talk
 
@@ -101,7 +101,7 @@ To Be Defined
 
 ## Closing Or Resources
 
-```sdf
+```md
 ## Ressources
 
 - Slides
