@@ -9,7 +9,7 @@ description: Use when creating, reviewing, editing, validating, or maintaining S
 
 - Always state the active phase before acting: `Phase: Technical pass`, `Phase: Narrative pass`, or `Phase: Authoring pass`.
 - The user must explicitly name the deck. The deck name maps to a direct child directory of the current repo.
-- Current standard is `<deck>/slidesk.toml`, scaffold-only `<deck>/main.md`, and ordered `<deck>/slides/*.md`.
+- Current standard is `<deck>/slidesk.toml`, scaffold-only `<deck>/main.md` with the required SliDesk customisation container, and ordered `<deck>/slides/*.md`.
 - New decks always use the current standard. Do not create `.env`, `main.sdf`, `slides/*.sdf`, or `common -> ../common` for new decks.
 - Existing current-standard decks stay Markdown-only. Never edit `.env` or create `.sdf` files in them.
 - Existing legacy decks may be authored as-is, but mention they are legacy and that deterministic structural checking only covers the current Markdown standard.
@@ -46,8 +46,9 @@ The checker validates current-standard Markdown decks and reports legacy decks w
 - format status: current, mixed, legacy, unknown, missing, or invalid
 - mandatory `slidesk.toml`, `[slidesk]`, and uppercase string `TITLE`
 - light type checks for common `slidesk.toml` keys
-- scaffold-only `main.md`
+- scaffold-only `main.md`, including the required top-level `/: ... ::/` customisation container before includes
 - active Markdown includes, with `!include(slides, md)` as the house default
+- `add_styles` and `add_scripts` entries in the customisation container, with local asset path checks when possible
 - include path existence and `include_mode` metadata
 - ordered `slides/*.md`, numeric-prefix warnings, and duplicate-prefix warnings
 - `##` slide boundaries, including class-only headings such as `## .[cover]`
@@ -112,7 +113,28 @@ Before editing:
 
 Current-standard authoring rules:
 
-- Keep `main.md` scaffold-only. It should normally contain only `!include(slides, md)`, timing comments, SliDesk comments, and blank lines.
+- Before creating or changing `main.md`, ask the user whether custom CSS or custom scripts should be loaded. If yes, write them into the top customisation container with comma-separated `add_styles` and/or `add_scripts` entries; prefer local files under `<deck>/assets` or `common/assets`.
+- Keep `main.md` scaffold-only. It must start with the SliDesk customisation container before the first include. Use an empty container when no custom assets are needed:
+
+```md
+/::
+::/
+
+!include(slides, md)
+```
+
+- With custom CSS or scripts:
+
+```md
+/::
+add_styles: assets/custom.css
+add_scripts: assets/custom.js
+::/
+
+!include(slides, md)
+```
+
+- It should normally contain only that customisation container, `!include(slides, md)`, timing comments, SliDesk comments, and blank lines.
 - Slides live in `slides/*.md`.
 - If `main.md` uses `!include(slides, md)`, file sort order controls presentation order.
 - If `main.md` uses individual Markdown includes, include order in `main.md` controls presentation order.
@@ -179,13 +201,27 @@ TITLE = "<deck title>"
 WIDTH = 1920
 ```
 
-4. Create scaffold-only `<deck>/main.md`:
+4. Ask whether custom CSS or custom scripts should be loaded. Create scaffold-only `<deck>/main.md`; use an empty customisation container when none are requested:
 
 ```md
+/::
+::/
+
 !include(slides, md)
 ```
 
-5. Create `<deck>/slides/10-cover.md`:
+5. If custom assets are requested, populate the container with comma-separated paths:
+
+```md
+/::
+add_styles: assets/custom.css
+add_scripts: assets/custom.js
+::/
+
+!include(slides, md)
+```
+
+6. Create `<deck>/slides/10-cover.md`:
 
 ```md
 ## .[cover]
@@ -197,8 +233,8 @@ To Be Defined
 */
 ```
 
-6. Create `<deck>/assets/`.
-7. Run the checker.
+7. Create `<deck>/assets/`.
+8. Run the checker.
 
 ## Optional Conversion Guidance
 
@@ -226,4 +262,5 @@ Recommended conversion steps:
 
 - Read `references/patterns.md` when adding slide patterns or when local examples are insufficient.
 - Current SliDesk documentation: https://slidesk.github.io/slidesk/
+- SliDesk customisation container docs: https://slidesk.github.io/slidesk/customisation/
 - If SliDesk syntax or configuration behavior is uncertain, check the current docs or upstream docs source before inventing syntax.

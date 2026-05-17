@@ -24,6 +24,7 @@ MARKDOWN_IMAGE_RE = re.compile(r"!\[[^\]]*]\(([^)\s]+)(?:\s+[^)]*)?\)")
 HTML_IMAGE_RE = re.compile(r"<img\b[^>]*\bsrc\s*=\s*([\"'])(.*?)\1", re.IGNORECASE)
 INTERPOLATION_RE = re.compile(r"\+\+([A-Za-z_][A-Za-z0-9_]*)\+\+")
 NUMERIC_MD_PREFIX_RE = re.compile(r"^(\d+)[-_].+\.md$")
+CUSTOM_ASSET_RE = re.compile(r"^(add_styles|add_scripts)\s*:\s*(.+)$")
 
 CURRENT_STANDARD = "slidesk.toml + main.md + slides/*.md"
 
@@ -302,6 +303,25 @@ def check_include_path(
     return resolved
 
 
+def check_custom_asset_paths(
+    deck_dir: Path,
+    main_path: Path,
+    line_no: int,
+    raw_value: str,
+    findings: list[Finding],
+) -> None:
+    for raw_path in raw_value.split(","):
+        value = normalize_media_path(raw_path)
+        if not value:
+            continue
+        if is_external_path(value) or is_dynamic_path(value):
+            continue
+        candidate = local_path_without_query(value)
+        resolved = deck_dir / candidate
+        if not resolved.exists():
+            add(findings, "warning", main_path, line_no, f"custom asset path does not exist: {value}")
+
+
 def check_main_md(deck_dir: Path, findings: list[Finding]) -> IncludeSummary:
     main_path = deck_dir / "main.md"
     if not main_path.exists():
@@ -318,10 +338,34 @@ def check_main_md(deck_dir: Path, findings: list[Finding]) -> IncludeSummary:
     directory_includes = 0
     individual_includes = 0
     includes_sdf = False
+    in_slidesk_comment: int | None = None
+    saw_customisation_container = False
+
+    nonblank_lines = [(line_no, line.strip()) for line_no, line in enumerate(text.splitlines(), 1) if line.strip()]
+    if not nonblank_lines or nonblank_lines[0][1] != "/::":
+        line_no = nonblank_lines[0][0] if nonblank_lines else None
+        add(
+            findings,
+            "error",
+            main_path,
+            line_no,
+            "main.md must start with the SliDesk customisation container: /:: ... ::/",
+        )
 
     for line_no, line in enumerate(text.splitlines(), 1):
         stripped = line.strip()
         if not stripped:
+            continue
+        if in_slidesk_comment is not None:
+            custom_asset_match = CUSTOM_ASSET_RE.match(stripped)
+            if custom_asset_match:
+                check_custom_asset_paths(deck_dir, main_path, line_no, custom_asset_match.group(2), findings)
+            if stripped == "::/":
+                in_slidesk_comment = None
+            continue
+        if stripped == "/::":
+            saw_customisation_container = True
+            in_slidesk_comment = line_no
             continue
         if stripped.startswith("////"):
             if "!include(" in stripped:
@@ -368,6 +412,11 @@ def check_main_md(deck_dir: Path, findings: list[Finding]) -> IncludeSummary:
             continue
 
         add(findings, "error", main_path, line_no, "main.md is scaffold-only; move visible slide content to slides/*.md")
+
+    if in_slidesk_comment is not None:
+        add(findings, "error", main_path, in_slidesk_comment, "SliDesk customisation container starts with /:: but is not closed with ::/")
+    if not saw_customisation_container:
+        add(findings, "error", main_path, None, "main.md must contain a top-level SliDesk customisation container")
 
     if directory_includes and individual_includes:
         add(findings, "warning", main_path, None, "main.md mixes directory and individual Markdown includes; choose one ordering model")
